@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FeedController;
+use App\Http\Controllers\RestaurantController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,6 +40,12 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::group(['middleware' => ['auth']], function() {
 
         Route::get("/",[FeedController::class,"myFeed"])->name("feed");
+        Route::get("/restaurant/create-restaurant",[RestaurantController::class,"create"]);
+        Route::post("/restaurant/create-restaurant",[RestaurantController::class,"createRestaurant"])->middleware(["isRestaurantCreatedBefore"]);
+        Route::group(["middleware"=>['ensure_restaurant_created']],function (){
+            Route::get("/restaurant/my-restaurant",[RestaurantController::class,"show"])->name("myRestaurant");
+        });
+
         /**
          * Logout Routes
          */

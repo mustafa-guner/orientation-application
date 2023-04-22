@@ -66,6 +66,10 @@ class User extends Authenticatable
         return $this->belongsTo(UserType::class, 'user_type_id');
     }
 
+    public function restaurant(){
+        return $this->hasOne(Restaurant::class,"owner_id");
+    }
+
     public function setPasswordAttribute($pwd){
         $this->attributes['password'] = bcrypt($pwd);
     }

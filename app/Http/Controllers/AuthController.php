@@ -10,7 +10,6 @@ use App\Models\User;
 use App\Models\UserType;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Session;
 
@@ -19,7 +18,8 @@ class AuthController extends Controller
     public function registerPage(){
         $cities = City::all();
         $genders = Gender::all();
-        return view("auth.register",compact("cities","genders"));
+        $userTypes = UserType::all();
+        return view("auth.register",compact("cities","genders",'userTypes'));
 
     }
 
@@ -41,19 +41,7 @@ class AuthController extends Controller
                 request()->profile_image->move(public_path('profile_images'), $profile_image);
                 request()->profile_image = $profile_image;
             }
-           $user =  User::create([
-                'first_name'=>$request->validated()["first_name"],
-                'last_name'=>$request->validated()["last_name"],
-                'phone_no'=>$request->validated()["phone_no"],
-                'gender_id'=>$request->validated()["gender_id"],
-                'city_id'=>$request->validated()["city_id"],
-                'user_type_id'=>UserType::NORMAL_USER,
-                'birth_date'=>$request->validated()["birth_date"],
-                'profile_image'=>$request->validated()["profile_image"],
-                'email'=>$request->validated()["email"],
-                'password'=>$request->validated()["password"],
-            ]);
-
+            $user = User::create($request->validated());
             auth()->login($user);
             return redirect('/')->with("success","Account successfully registered.");
         }catch(\Exception $e){

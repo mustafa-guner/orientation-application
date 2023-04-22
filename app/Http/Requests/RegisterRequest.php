@@ -31,6 +31,7 @@ class RegisterRequest extends FormRequest
             'birth_date'=>'date|required',
             'city_id'=>'required',
             'gender_id'=>'required',
+            'user_type_id'=>'required',
         ];
     }
 }

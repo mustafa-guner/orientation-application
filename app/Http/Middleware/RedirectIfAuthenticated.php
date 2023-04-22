@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Restaurant;
+use App\Models\UserType;
 use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Http\Request;

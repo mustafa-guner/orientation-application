@@ -21,12 +21,12 @@
 
             @guest
             <li>
-                <a href="/">
+                <a href="{{url("/login")}}">
                     login
                 </a>
             </li>
             <li>
-                <a href="/">
+                <a href="{{url("/register")}}">
                     register
                 </a>
             </li>
