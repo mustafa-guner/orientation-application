@@ -11,7 +11,7 @@ class RegisterRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,15 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'first_name'=>'string|required',
+            'last_name'=>'string|required',
+            'email'=>'string|required|email:rfc,dns|unique:users,email',
+            'password'=>'required|min:8',
+            'phone_no'=>'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|unique:users,phone_no',
+            'profile_image'=>'required|file|mimes:jps,png,gif,jpeg,svg|max:1024',
+            'birth_date'=>'date|required',
+            'city_id'=>'required',
+            'gender_id'=>'required',
         ];
     }
 }

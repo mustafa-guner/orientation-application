@@ -12,13 +12,22 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $primaryKey = 'user_id';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
+        'phone_no',
+        'gender_id',
+        'city_id',
+        'user_type_id',
+        'birth_date',
+        'profile_image',
         'email',
         'password',
     ];
@@ -41,4 +50,23 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'city_id');
+    }
+
+    public function gender()
+    {
+        return $this->belongsTo(Gender::class, 'gender_id');
+    }
+
+    public function user_type()
+    {
+        return $this->belongsTo(UserType::class, 'user_type_id');
+    }
+
+    public function setPasswordAttribute($pwd){
+        $this->attributes['password'] = bcrypt($pwd);
+    }
 }

@@ -3,45 +3,88 @@
 
 @section("content")
     <h1>Register</h1>
+    <a href="{{url("/login")}}">Login</a>
     <hr>
     <div>
-        <form action="{{url("/register")}}">
+        <form action="{{url("/register")}}" method="POST" enctype="multipart/form-data">
+                {{ csrf_field() }}
             <div>
-                <label for="p_firstname">
+                <label for="first_name">
                     First Name
                 </label> <br>
-                <input type="text" name="p_firstname" id="p_firstname" placeholder="Enter Firstname">
+                <input type="text" name="first_name" value="Mustafa" id="first_name" placeholder="Enter Firstname">
+                @if ($errors->has('first_name'))
+                    <span class="text-danger text-left">{{ $errors->first('first_name') }}</span>
+                @endif
             </div>
             <div>
-                <label for="p_surname">Password</label>
-                <input type="text" name="p_surname" placeholder="Enter Lastname" id="p_surname">
+                <label for="last_name">Surname</label>
+                <input type="text" name="last_name" value="Guner" placeholder="Enter Lastname" id="last_name">
+                @if ($errors->has('last_name'))
+                    <span class="text-danger text-left">{{ $errors->first('last_name') }}</span>
+                @endif
             </div>
+            <div>
+                <label for="password">Password</label>
+                <input type="password" name="password" value="asdf1234" placeholder="Enter Password" id="password">
+                @if ($errors->has('password'))
+                    <span class="text-danger text-left">{{ $errors->first('password') }}</span>
+                @endif
+            </div>
+
             <div>
                 <label for="email">Email</label>
-                <input type="email" name="email" placeholder="Enter Email" id="email">
+                <input type="email" name="email" value="test@outlook.com" placeholder="Enter Email" id="email">
+                @if ($errors->has('email'))
+                    <span class="text-danger text-left">{{ $errors->first('email') }}</span>
+                @endif
             </div>
             <div>
-                <label for="p_image">Profile Image</label>
-                <input type="file" name="p_image"  id="p_image">
+                <label for="profile_image">Profile Image</label>
+                <input type="file" name="profile_image"  id="profile_image">
+                @if ($errors->has('profile_image'))
+                    <span class="text-danger text-left">{{ $errors->first('profile_image') }}</span>
+                @endif
             </div>
             <div>
-                <label for="p_gender">Gender</label>
-                <input type="radio" name="p_gender_id" value="female"/>Female
-                <input type="radio" name="p_gender_id" value="male"/>Male
-                <input type="radio" name="p_gender_id" value="other">Other
+                <label for="birth_date">Date of Birth</label>
+                <input type="date" name="birth_date"  id="birth_date">
+                @if ($errors->has('birth_date'))
+                    <span class="text-danger text-left">{{ $errors->first('birth_date') }}</span>
+                @endif
             </div>
             <div>
-                <label for="p_city_id">Profile Image</label>
-                <select id="p_city_id" name="p_city_id">
-                    <option>Please Select</option>
-                    <option>Nicosia</option>
-                    <option>Famagusta</option>
-                    <option>Kyrenia</option>
-                    <option>Morphou</option>
+                <label for="phone_no">Phone No</label>
+                <input type="text" name="phone_no" value="5338673755"  id="phone_no">
+                @if ($errors->has('phone_no'))
+                    <span class="text-danger text-left">{{ $errors->first('phone_no') }}</span>
+                @endif
+            </div>
+            <div>
+                <div>Gender</div>
+                @foreach($genders as $gender)
+                    <label for="{{$gender->gender_id}}_gender">
+                        {{$gender->name}}
+                        <input id="{{$gender->gender_id}}_gender" type="radio" name="gender_id" value="{{$gender->gender_id}}"/>
+                    </label>
+                @endforeach
+                @if ($errors->has('gender_id'))
+                    <span class="text-danger text-left">{{ $errors->first('gender_id') }}</span>
+                @endif
+            </div>
+            <div>
+                <label for="city_id">City</label>
+                <select id="city_id" name="city_id">
+                    <option value="">Please Select</option>
+                    @foreach($cities as $city)
+                        <option value="{{$city->city_id}}">{{$city->name}}</option>
+                    @endforeach
                 </select>
-
+                @if ($errors->has('city_id'))
+                    <span class="text-danger text-left">{{ $errors->first('city_id') }}</span>
+                @endif
             </div>
-            <button>register</button>
+            <button type="submit">register</button>
         </form>
     </div>
 @stop
