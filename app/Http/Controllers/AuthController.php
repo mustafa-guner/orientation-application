@@ -36,12 +36,16 @@ class AuthController extends Controller
      */
     public function register(RegisterRequest $request){
         try{
+            $profile_image = null;
+
             if(request()->hasfile("profile_image")){
                 $profile_image = time().'_profile_image_'.'.'.request()->profile_image->getClientOriginalExtension();
                 request()->profile_image->move(public_path('profile_images'), $profile_image);
-                request()->profile_image = $profile_image;
             }
-            $user = User::create($request->validated());
+            $requestBody = $request->validated();
+            $requestBody["profile_image"] = $profile_image;
+            $user = User::create($requestBody);
+
             auth()->login($user);
             return redirect('/')->with("success","Account successfully registered.");
         }catch(\Exception $e){

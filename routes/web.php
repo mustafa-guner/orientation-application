@@ -41,7 +41,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
         Route::get("/",[FeedController::class,"myFeed"])->name("feed");
         Route::get("/restaurant/create-restaurant",[RestaurantController::class,"create"]);
-        Route::post("/restaurant/create-restaurant",[RestaurantController::class,"createRestaurant"])->middleware(["isRestaurantCreatedBefore"]);
+        Route::post("/restaurant/create-restaurant",[RestaurantController::class,"createRestaurant"]);
         Route::group(["middleware"=>['ensure_restaurant_created']],function (){
             Route::get("/restaurant/my-restaurant",[RestaurantController::class,"show"])->name("myRestaurant");
         });
