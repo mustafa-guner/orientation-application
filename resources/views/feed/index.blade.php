@@ -87,7 +87,7 @@
             <hr>
             <div class="row">
                 @foreach($restaurants as $restaurant)
-                    <div class="col-md-6 col-sm-12">
+                    <div id="{{$restaurant->restaurant_id}}" class="col-md-6 col-sm-12">
                         <div class="card custom-card mb-4 rounded-2">
                             <div class=" p-3 d-flex align-items-center justify-content-between">
                                 <div>
@@ -119,8 +119,8 @@
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-end">
-                                    <button class="btn btn-primary btn-sm text-right w-100 mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">
-                                        Book Now
+                                    <button onclick="openModal()" class="btn btn-primary btn-sm text-right w-100 mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">
+                                        Book Table Now
                                     </button>
                                 </div>
                             </div>
@@ -136,7 +136,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Book Your Table</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Book Your Table <span id="restaurant_name"></span></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -158,10 +158,6 @@
                        </select>
                     </div>
                     <div class="mb-3">
-                        <label for="reservation_date" class="col-form-label">Reservation Date:</label>
-                        <input type="date" class="form-control" id="reservation_date">
-                    </div>
-                    <div class="mb-3">
                         <label for="message-text" class="col-form-label">Comment:</label>
                         <textarea class="form-control" id="message-text"></textarea>
                     </div>
@@ -174,5 +170,12 @@
         </div>
     </div>
 </div>
+
+    <script>
+        function openModal(){
+            const
+            alert("test")
+        }
+    </script>
 
 @stop

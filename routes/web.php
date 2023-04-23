@@ -40,6 +40,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::group(['middleware' => ['auth']], function() {
 
         Route::get("/",[FeedController::class,"myFeed"])->name("feed");
+        Route::get("/restaurant/fetch",[RestaurantController::class,"fetch"]);
         Route::get("/restaurant/create-restaurant",[RestaurantController::class,"create"]);
         Route::post("/restaurant/create-restaurant",[RestaurantController::class,"createRestaurant"]);
         Route::group(["middleware"=>['ensure_restaurant_created']],function (){
