@@ -17,24 +17,25 @@
             </div>
             <div class="col-12">
                 <div class="row">
-                    <div class="col-md-8 col-sm-12 mx-auto text-center">
+                    <div class="col-md-12 col-sm-12 mx-auto text-center">
                         <div class="row mx-auto">
                             <div class="col-md-3 col-sm-6">
-                                <h6>Email</h6>
+                                <h6 class="fw-bold">Email</h6>
                                 <p>{{$restaurant->email == null ? "-" : $restaurant->email}}</p>
                             </div>
                             <div class="col-md-3 col-sm-6">
-                                <h6>Phone No</h6>
+                                <h6 class="fw-bold">Phone No</h6>
                                 <p>{{$restaurant->phone_no == null ? "-" : $restaurant->phone_no}}</p>
                             </div>
                             <div class="col-md-3 col-sm-6">
-                                <h6>City</h6>
+                                <h6 class="fw-bold">City</h6>
                                 <p>{{$restaurant->city_id}}</p>
                             </div>
                             <div class="col-md-3 col-sm-6">
-                                <h6>Has Outdoor</h6>
-                                <p>{{$restaurant->has_outdoor ==  1 ? "Yes" : "No"}}</p>
+                                <h6 class="fw-bold">Indoor/Outdoor</h6>
+                                <p>{{$restaurant->has_indoor ==  1 ? "Yes" : "No"}} / {{$restaurant->has_outdoor == 1 ?"Yes":"No"}}</p>
                             </div>
+
                         </div>
                     </div>
 {{--                    <div class="col-2">--}}
