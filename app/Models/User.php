@@ -72,6 +72,10 @@ class User extends Authenticatable
         return $this->hasOne(Restaurant::class,"owner_id");
     }
 
+    public function reservations(){
+        return $this->hasMany(Reservation::class,"reserved_by");
+    }
+
     public function setPasswordAttribute($pwd){
         $this->attributes['password'] = bcrypt($pwd);
     }
@@ -79,5 +83,7 @@ class User extends Authenticatable
     {
         return Carbon::parse($this->attributes['birth_date'])->age;
     }
+
+
 
 }

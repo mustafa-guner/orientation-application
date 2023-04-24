@@ -7,8 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Reservation App - @yield('title')</title>
 
-    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/fontawesome.min.css" integrity="sha512-SgaqKKxJDQ/tAUAAXzvxZz33rmn7leYDYfBP+YoMRSENhf3zJyx3SBASt/OfeQwBHA1nxMis7mM3EV/oYT6Fdw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/brands.min.css" integrity="sha512-9YHSK59/rjvhtDcY/b+4rdnl0V4LPDWdkKceBl8ZLF5TB6745ml1AfluEU6dFWqwDw9lPvnauxFgpKvJqp7jiQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+{{--    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">--}}
+{{--    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">--}}
+
     <!-- Styles -->
     <style>
         body{
@@ -21,10 +25,24 @@
         }
         .card{
             border: none !important;
+        }
 
+        .dataTables_filter{
+            display: flex;
+            justify-content: end;
+            margin-bottom: .6rem;
+        }
+
+        .dataTables_paginate{
+            display: flex;
+            justify-content: end;
+        }
+
+        .card .card-body p.card-description {
+            height: 80px !important;
         }
         .card .card-body img{
-            height: 250px !important;
+            height: 300px !important;
             object-fit: cover;
         }
 
@@ -33,6 +51,7 @@
         }
         .restaurant-card{
             box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+            height: 100% !important;
         }
     </style>
     <link href="{{ asset('build/assets/app-3ea8b221.css') }}" rel="stylesheet">

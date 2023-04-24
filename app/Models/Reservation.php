@@ -8,4 +8,29 @@ use Illuminate\Database\Eloquent\Model;
 class Reservation extends Model
 {
     use HasFactory;
+
+    protected $primaryKey = "reservation_id";
+    protected $fillable = [
+      'reservation_date',
+      'users_no',
+      'comment',
+      'in_door',
+      'out_door',
+      'status_id',
+      'restaurant_id',
+      'reserved_by'
+    ];
+
+
+    public function restaurant(){
+        return $this->belongsTo(Restaurant::class,"restaurant_id");
+    }
+
+    public function status(){
+        return $this->belongsTo(Status::class,'status_id');
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class,"reserved_by");
+    }
 }

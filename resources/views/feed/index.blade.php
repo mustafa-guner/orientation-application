@@ -11,26 +11,31 @@
                 <div>
                     <h4 class="text-center">Filters</h4>
                     <hr>
-                    <form method="POST">
+                    <form method="GET" action="{{url("")}}">
                         <div class="row">
                             <div class="col-12">
                                 <label class="fw-bold" for="">Location</label>
-                                <select name="" id="" class="form-control">
+                                <select name="city_id" id="" class="form-control">
                                     <option value="">Please Select</option>
+                                    @foreach($cities as $city)
+                                        <option value="{{$city->city_id}}">{{$city->name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="col-12 my-2">
                                 <label class="fw-bold" for="">Seats</label>
-                                <select name="" id="" class="form-control">
+                                <select name="door" id="" class="form-control">
                                     <option value="">Please Select</option>
-                                    <option>Indoor</option>
-                                    <option>Outdoor</option>
+                                    <option value="in_door">Indoor</option>
+                                    <option value="out_door">Outdoor</option>
                                 </select>
                             </div>
                             <div class="col-12">
                                 <label class="fw-bold" for="">Availability</label>
-                                <select name="" id="" class="form-control">
+                                <select name="availability" id="" class="form-control">
                                     <option value="">Please Select</option>
+                                    <option value="1">Available</option>
+                                    <option value="0">Not Available</option>
                                 </select>
                             </div>
                         </div>
@@ -43,33 +48,37 @@
             <div class="card custom-card my-5 p-3">
                 <div>
                     <div class="text-center d-flex justify-content-center">
-                        <img class="mx-auto" style="width:50px; height: 50px; border-radius: 100%" src="{{ url('profile_images/'.$user->profile_image)}}" alt="">
+                        <img class="mx-auto" style="width:50px; height: 50px; border-radius: 100%; border: 2px solid #ced4da;" src="{{ url('profile_images/'.$user->profile_image)}}" alt="">
                     </div>
 
                     <h4 class="text-center py-1">My Profile</h4>
                     <hr>
                     <div class="mb-2">
-                        <p class="fw-bold my-0">Full Name</p>
+                        <p class="fw-bold my-0"><i class="fa-solid fa-user"></i> Full Name</p>
                         {{$user->first_name}} {{ $user->last_name }}
                     </div>
                     <div class="mb-2">
-                        <p class="fw-bold my-0">Email</p>
+                        <p class="fw-bold my-0"><i class="fa-solid fa-envelope"></i> Email</p>
                         {{$user->email}}
                     </div>
                     <div class="mb-2">
-                        <p class="fw-bold my-0">Contact</p>
+                        <p class="fw-bold my-0"><i class="fa-solid fa-phone"></i> Contact</p>
                         +{{$user->phone_no}}
                     </div>
                     <div class="mb-2">
-                        <p class="fw-bold my-0">Gender</p>
+                        <p class="fw-bold my-0"><i class="fa-solid fa-venus-mars"></i> Gender</p>
                         {{$user->gender->name}}
                     </div>
                     <div class="mb-2">
-                        <p class="fw-bold my-0">Account Type</p>
+                        <p class="fw-bold my-0"><i class="fa-solid fa-building"></i> City</p>
+                        {{$user->city->name}}
+                    </div>
+                    <div class="mb-2">
+                        <p class="fw-bold my-0"><i class="fa-duotone fa-user-helmet-safety"></i> Account Type</p>
                         {{$user->user_type->title}}
                     </div>
                 </div>
-                <a class="btn btn-sm w-100 btn-success">My Reservations</a>
+                <button id="get-my-reservations-btn" data-bs-toggle="modal" data-bs-target="#my-reservations-modal"  class="btn btn-sm w-100 btn-success">My Reservations</button>
             </div>
         </div>
         <div class="col-md-9 col-sm-12">
@@ -79,7 +88,7 @@
                 </div>
                 <div class="col-md-6 col-sm-12 pr-0">
                     <form class="d-flex btn-group mr-0">
-                        <input type="search" class="form-control" placeholder="Searh for restaurant...">
+                        <input type="search" class="form-control" placeholder="Search for restaurant...">
                         <button class="btn btn-primary btn-sm">Search</button>
                     </form>
                 </div>
@@ -87,7 +96,7 @@
             <hr>
             <div class="row">
                 @foreach($restaurants as $restaurant)
-                    <div id="{{$restaurant->restaurant_id}}" class="col-md-6 col-sm-12">
+                    <div id="my_modal_{{$restaurant->restaurant_id}}" class="col-md-6 col-sm-12">
                         <div class="card custom-card mb-4 rounded-2">
                             <div class=" p-3 d-flex align-items-center justify-content-between">
                                 <div>
@@ -107,7 +116,7 @@
                                 <div class="row">
                                     <div class="col-4">
                                         <p class="my-0">City</p>
-                                        <small class="text-gray">{{$restaurant->city_id}}</small>
+                                        <small class="text-gray">{{$restaurant->city->name}}</small>
                                     </div>
                                     <div class="col-4">
                                         <p class="my-0">Outdoor</p>
@@ -119,7 +128,7 @@
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-end">
-                                    <button onclick="openModal()" class="btn btn-primary btn-sm text-right w-100 mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">
+                                    <button data-target-id="{{ $restaurant->restaurant_id }}" class="btn btn-primary btn-sm text-right w-100 mt-3" data-bs-toggle="modal" data-bs-target="#reservation-modal" data-bs-whatever="@mdo">
                                         Book Table Now
                                     </button>
                                 </div>
@@ -132,8 +141,8 @@
     </div>
 </div>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="reservation-modal" tabindex="-1" aria-labelledby="reservation-modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Book Your Table <span id="restaurant_name"></span></h5>
@@ -150,32 +159,120 @@
                         <input type="number" class="form-control" id="people_no">
                     </div>
                     <div class="mb-3">
-                        <label for="people_no" class="col-form-label">Indoor/Outdoor</label>
-                       <select class="form-control">
+                        <label for="door" class="col-form-label">Indoor/Outdoor</label>
+                       <select id="door" name="door" class="form-control">
                            <option>Please Select</option>
-                           <option>Indoor</option>
-                           <option>Outdoor</option>
+                           <option value="in_door">Indoor</option>
+                           <option value="out_door">Outdoor</option>
                        </select>
                     </div>
                     <div class="mb-3">
-                        <label for="message-text" class="col-form-label">Comment:</label>
-                        <textarea class="form-control" id="message-text"></textarea>
+                        <label for="comment" class="col-form-label">Comment:</label>
+                        <textarea name="comment" class="form-control" id="comment"></textarea>
                     </div>
+
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Submit</button>
+                <button id="createReservation" type="button" class="btn btn-primary">Submit</button>
             </div>
         </div>
     </div>
 </div>
 
-    <script>
-        function openModal(){
-            const
-            alert("test")
-        }
-    </script>
+<div class="modal fade bd-example-modal-lg"  id="my-reservations-modal" tabindex="-1" aria-labelledby="my-reservations-modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">My Reservations <span id="restaurant_name"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table id="my_reservations_table" class=" mt-0 table table-bordered data-table">
+                    <thead>
+                        <th>Restaurant Name</th>
+                        <th>Indoor/Outdoor</th>
+                        <th>Comment</th>
+                        <th>Reservation Date</th>
+{{--                        <th>Action Date</th>--}}
+                        <th>Status</th>
+                    </thead>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+<script>
+
+    $(document).ready(function () {
+        //Create new reservation modal
+        $("#reservation-modal").on("show.bs.modal", function (e) {
+            const restaurant_id = $(e.relatedTarget).data('target-id');
+           $("#createReservation").on("click",function (){
+                $.ajax({
+                    url: `{{url("reservation/")}}/${restaurant_id}`,
+                    type:"POST",
+                    data:{
+                        '_token': "{{ csrf_token() }}",
+                        'reservation_date':$("#reservation_date").val(),
+                        'users_no':$("#people_no").val(),
+                        'door':$("#door").val(),
+                        'comment':$("#comment").val(),
+                    }
+                }).done(function(result){
+                    if(result.success){
+                     return Swal.fire(
+                            'Good job!',
+                            'You clicked the button!',
+                            'success'
+                        )
+                    }
+                }).fail(function (err){
+                    const error_message = JSON.parse(err.responseText);
+                    return Swal.fire(
+                        'error',
+                        error_message.message,
+                        'error'
+                    )
+                })
+           })
+        });
+
+        //My reservations modal
+        $("#my-reservations-modal").on("show.bs.modal", function (e) {
+            //Destroy table when opening modal again after closing it (check if it is exists)
+            if ($.fn.DataTable.isDataTable($("#my_reservations_table"))) {
+                $("#my_reservations_table").DataTable().destroy();
+            }
+            let table = $("#my_reservations_table").DataTable({
+                lengthChange:false,
+                autoWidth:false,
+                serverSide:true,
+                processing:true,
+                ajax:{
+                    type:"GET",
+                    url:"{{url("reservation/my-reservations")}}"
+                },
+                columns:[
+                    {data:"restaurant_name",name:"restaurant_name"},
+                    {data: 'door',name:"door"},
+                    {data:"comment",defaultContent:"-",width: "25%"},
+                    {data: 'reservation_date', orderable: true, searchable: true},
+                    // {data:"action_at",name:"action_at"},
+                    {data:"status",searchable: true},
+                ]
+            })
+        });
+    });
+
+</script>
 
 @stop

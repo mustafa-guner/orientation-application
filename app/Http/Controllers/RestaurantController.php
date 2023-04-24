@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RestaurantRequest;
 use App\Models\City;
+use App\Models\Reservation;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
 
@@ -19,6 +20,9 @@ class RestaurantController extends Controller
         return view("restaurant.show",compact("restaurant"));
     }
 
+    /**
+     * @return false|string
+     */
     public function fetch(){
         $restaurants = Restaurant::all();
         return json_encode($restaurants);

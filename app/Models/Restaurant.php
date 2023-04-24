@@ -29,4 +29,12 @@ class Restaurant extends Model
       'instagram_link',
       'website_link',
     ];
+
+  public function reservations(){
+      return $this->hasMany(Reservation::class,"reservation_id");
+  }
+
+  public function city(){
+      return $this->belongsTo(City::class,"city_id");
+  }
 }
