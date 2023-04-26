@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\InsertReservationRequest;
+use App\Jobs\SendEmailJob;
 use App\Models\Reservation;
+use App\Models\Restaurant;
 use App\Models\Status;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
+
 
 class ReservationController extends Controller
 {
@@ -28,7 +31,20 @@ class ReservationController extends Controller
            $requestBody["status_id"] = Status::PENDING;
 
            //Create reservation
-            Reservation::create($requestBody);
+           $reservation = Reservation::create($requestBody);
+
+           //Send Reservation Notification Mail to Restaurant Owner
+           $restaurant = Restaurant::with("owner")->where("restaurant_id",'=',$requestBody["restaurant_id"])->first();
+           $details["full_name"] =$restaurant->owner->first_name . ' ' . $restaurant->owner->last_name;
+           $details["from"] =$reservation->user->first_name . ' ' . $reservation->user->last_name;
+           $details["phone_no"] = $reservation->user->phone_no;
+           $details['email'] = $restaurant->email;
+           $details["restaurant_name"] = $restaurant->name;
+           $details["door"] = $reservation->in_door == 1 ? "Indoor" : "Outdoor";
+           $details["people"] = $reservation->users_no;
+           $details["reservation_date"] =Carbon::parse($reservation->reservation_date)->format('d/m/Y  H:i:s');
+           dispatch(new SendEmailJob($details,Status::PENDING));
+
            return response()->json(["success"=>true,'data'=>$requestBody]);
        }catch(\Exception $e){
           return response()->json(["success"=>false,'message'=>json_encode($e->getMessage())]);
@@ -41,7 +57,7 @@ class ReservationController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
    public function confirm($reservation_id,$restaurant_id){
-       $reservation = Reservation::where("reservation_id",'=',$reservation_id)
+       $reservation = Reservation::with("user","restaurant")->where("reservation_id",'=',$reservation_id)
            ->where("restaurant_id",'=',$restaurant_id)->first();
        try{
             if(!$reservation) abort(404);
@@ -49,6 +65,15 @@ class ReservationController extends Controller
             $reservation->status_id = Status::CONFIRMED;
 
             $reservation->save();
+
+            //Send Reservation Confirmation Mail to User
+           $details["full_name"] = $reservation->user->first_name . ' ' .$reservation->user->last_name;
+           $details['email'] = $reservation->user->email;
+           $details["restaurant_name"] = $reservation->restaurant->name;
+           $details["door"] = $reservation->in_door == 1 ? "Indoor" : "Outdoor";
+           $details["people"] = $reservation->users_no;
+           $details["reservation_date"] =Carbon::parse($reservation->reservation_date)->format('d/m/Y  H:i:s');
+           dispatch(new SendEmailJob($details,Status::CONFIRMED));
 
             return response()->json(["success"=>true,"message"=>"Reservation status updated successfully."]);
 
@@ -71,6 +96,13 @@ class ReservationController extends Controller
 
             $reservation->status_id = Status::REJECTED;
             $reservation->save();
+
+            //Send Reservation Rejection Mail to User
+            $details["full_name"] = $reservation->user->first_name . ' ' .$reservation->user->last_name;
+            $details['email'] = $reservation->user->email;
+            $details["restaurant_name"] = $reservation->restaurant->name;
+            $details["reservation_date"] =Carbon::parse($reservation->reservation_date)->format('d/m/Y  H:i:s');
+            dispatch(new SendEmailJob($details,Status::REJECTED));
 
             return response()->json(["success"=>true,"message"=>"Reservation status updated successfully."]);
 
@@ -108,20 +140,39 @@ class ReservationController extends Controller
      * @throws \Exception
      */
    public function fetch($restaurant_id){
-       $reservations = Reservation::with("restaurant","user","status")
-           ->where("restaurant_id",auth()->user()->restaurant->restaurant_id)
-           ->orderBy('created_at', 'desc')
+
+
+//       $reservations = Reservation::with("restaurant","user","status")
+//           ->where("restaurant_id",auth()->user()->restaurant->restaurant_id)
+//           ->orderBy('created_at', 'desc')
+//           ->get();
+
+       //ALTERNATIVE WAY TO JOIN TABLES
+
+      $reservations =  DB::table("reservations")
+           ->join("users",'reservations.reserved_by','=','users.user_id')
+           ->join("status",'reservations.status_id','=','status.status_id')
+           ->join("restaurant","reservations.restaurant_id",'=','restaurant.restaurant_id')
+           ->select(
+               "reservations.*",
+               'users.first_name',
+               'users.last_name',
+               'users.phone_no',
+               'users.email',
+               'status.title'
+           )
+           ->orderBy("created_at","desc")
            ->get();
 
        return DataTables::of($reservations)
            ->addColumn('full_name', function ($reservation) {
-             return $reservation->user->first_name. ' ' . $reservation->user->last_name;
+             return $reservation->first_name. ' ' . $reservation->last_name;
            })
            ->addColumn('phone_no', function ($reservation) {
-               return $reservation->user->phone_no;
+               return $reservation->phone_no;
            })
            ->addColumn("status",function ($reservation){
-               return $reservation->status->title;
+               return $reservation->title;
            })
            ->addColumn('door', function ($reservation) {
                return $reservation->in_door != 0 ? "Indoor" : "Outdoor";

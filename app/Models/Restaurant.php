@@ -37,4 +37,8 @@ class Restaurant extends Model
   public function city(){
       return $this->belongsTo(City::class,"city_id");
   }
+
+  public function owner(){
+      return $this->belongsTo(User::class,"owner_id");
+  }
 }

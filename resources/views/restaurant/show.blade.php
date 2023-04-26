@@ -97,8 +97,8 @@
                      {data:null, render: function(data,type,full,meta)
                          {
                              return `<span class="btn-group">
-                                   <button ${data.status_id == 2 ? "disabled" : ""} onclick="confirmReservation(${data.reservation_id},${data.restaurant_id})" class="btn btn-sm btn-success"><i class="fa-solid fa-check"></i></button>
-                                   <button ${data.status_id == 3 ? "disabled" : ""} onclick="rejectReservation(${data.reservation_id},${data.restaurant_id})" href="javascript:;" class="btn btn-sm text-white btn-warning"><i class="fa-solid fa-ban"></i></button>
+                                   <button ${Boolean(data.status_id == {{\App\Models\Status::CONFIRMED}}) ? "disabled" : ""} onclick="confirmReservation(${data.reservation_id},${data.restaurant_id})" class="btn btn-sm btn-success"><i class="fa-solid fa-check"></i></button>
+                                   <button ${Boolean(data.status_id == {{\App\Models\Status::REJECTED}}) ? "disabled" : ""} onclick="rejectReservation(${data.reservation_id},${data.restaurant_id})" href="javascript:;" class="btn btn-sm text-white btn-warning"><i class="fa-solid fa-ban"></i></button>
                                    <button onclick="rejectReservation(${data.reservation_id},${data.restaurant_id})" class="btn btn-sm text-white btn-danger"><i class="fa-solid fa-trash"></i></button>
                                 </span>`;
                          }

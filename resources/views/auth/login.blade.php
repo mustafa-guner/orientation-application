@@ -4,7 +4,7 @@
 @section("content")
     <div class="row my-5">
         @include('layouts.partials.messages')
-        <div class="col-md-7 mt-md-1 mt-sm-4 col-sm-12">
+        <div class="col-md-7 mt-md-1 mt-sm-4 col-sm-12" style="height:100vh;width:100vw;background-image: url({{url("restaurant_images/login.jpg")}})">
             <h1>Login</h1>
             <p>Don't have any account yet? <a href="{{url("/register")}}">Register</a></p>
         <hr>

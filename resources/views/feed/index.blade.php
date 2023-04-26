@@ -1,7 +1,46 @@
 
 @extends('layouts.master')
 @section("title","Login")
+<style>
+    .modal-body header {
+        background-color: #ff6633;
+        color: #fff;
+        text-align: center;
+        padding: 10px;
+    }
+    .modal-body h1 {
+        font-size: 3rem;
+        margin: 0;
+    }
+    .modal-body nav {
+        background-color: #333;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+    }
+    .modal-body nav a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 10px;
+    }
+    .modal-body section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+    }
+    .modal-body section img {
+        max-width: 70%;
+        width: 100%;
+        height: auto;
+        border-radius: 9px;
+        margin: 20px 0;
+    }
 
+</style>
 @section("content")
 
 <div class="card rounded-3 px-4 py-2 my-5">
@@ -127,6 +166,12 @@
                                         <small class="text-gray">Yes</small>
                                     </div>
                                 </div>
+
+                                <div class="d-flex justify-content-end">
+                                    <button data-target-id="{{ $restaurant->restaurant_id }}" class="btn btn-primary btn-sm text-right w-100 mt-3" data-bs-toggle="modal" data-bs-target="#details-modal" data-bs-whatever="@mdo">
+                                        News
+                                    </button>
+                                </div>
                                 <div class="d-flex justify-content-end">
                                     <button data-target-id="{{ $restaurant->restaurant_id }}" class="btn btn-primary btn-sm text-right w-100 mt-3" data-bs-toggle="modal" data-bs-target="#reservation-modal" data-bs-whatever="@mdo">
                                         Book Table Now
@@ -176,6 +221,39 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button id="createReservation" type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="details-modal" tabindex="-1" aria-labelledby="details-modal" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">News <span id="restaurant_name"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <header>
+                    <section>
+                        <div class="about-us">
+                            <img src="{{ url('restaurant_images/01.jpeg')}}" alt="Description of your image">
+                        </div>
+                    </section>
+                </header>
+                <nav>
+                    <p>News</p>
+                </nav>
+                <section>
+                    <h2>New Changes to Our Restaurant</h2>
+                    <p>Here at Chinese House, we're excited to announce some new developments. A mouthwatering General Tso's chicken dish and a flavorful garlic shrimp stir-fry are just a couple of the mouthwatering new dishes that our team has been working hard to add to our menu. To make it cozier and more friendly for our visitors, we also made some changes to the eating room. Additionally, we've increased our opening hours and are now open every day until 10 p.m. so you may savor our traditional Chinese food at your leisure. We
+                        can't wait for you to visit and sample our
+                        freshly renovated menu and setting!</p>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

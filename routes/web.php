@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FeedController;
@@ -16,6 +17,19 @@ use App\Http\Controllers\ReservationController;
 |
 */
 
+//Email Send Test Route
+Route::get('email-test', function(){
+    $details['email'] = 'mustafa-guner.guner@outlook.com';
+    $details["from"] = "From Name";
+    $details["phone_no"] = "5338783855";
+    $details["full_name"] ="Test Test";
+    $details["restaurant_name"] = "Test Restaurant";
+    $details["door"] = "Indoor";
+    $details["people"] = 3;
+    $details["reservation_date"] =Carbon::parse(now())->format('d/m/Y  H:i:s');
+    dispatch(new App\Jobs\SendEmailJob($details,0));
+    dd('done');
+});
 
 Route::group(['namespace' => 'App\Http\Controllers'], function()
 {
