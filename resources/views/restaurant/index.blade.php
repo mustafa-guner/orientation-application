@@ -111,7 +111,12 @@
                                                                 <h6 class="fw-bold">Indoor/Outdoor</h6>
                                                                 <p>{{$restaurant->has_indoor ==  1 ? "Yes" : "No"}} / {{$restaurant->has_outdoor == 1 ?"Yes":"No"}}</p>
                                                             </div>
-
+                                                        </div>
+                                                        <div class="row  mt-3 ">
+                                                            <div class="col-md-12 col-sm-6">
+                                                                <h6 class="fw-bold">Address</h6>
+                                                                <p>{{$restaurant->address == null ? "-" : $restaurant->address}}</p>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -120,64 +125,14 @@
                                                 <div class="row mt-2">
                                                     <div class="col-md-12 col-sm-12 mx-auto ">
                                                         <h4 class="fw-bold">News</h4>
-                                                        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-                                                            <div class="carousel-indicators">
-                                                                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                                                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                                                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                                                            </div>
-                                                            <div class="carousel-inner">
-                                                                <div class="carousel-item active">
-                                                                    <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" class="d-block w-100" alt="...">
-                                                                    <div class="carousel-caption d-none d-md-block">
-                                                                        <h5>First slide label</h5>
-                                                                        <p>Some representative placeholder content for the first slide.</p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="carousel-item">
-                                                                    <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" class="d-block w-100" alt="...">
-                                                                    <div class="carousel-caption d-none d-md-block">
-                                                                        <h5>Second slide label</h5>
-                                                                        <p>Some representative placeholder content for the second slide.</p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="carousel-item">
-                                                                    <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" class="d-block w-100" alt="...">
-                                                                    <div class="carousel-caption d-none d-md-block">
-                                                                        <h5>Third slide label</h5>
-                                                                        <p>Some representative placeholder content for the third slide.</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-                                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                                <span class="visually-hidden">Previous</span>
-                                                            </button>
-                                                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-                                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                                <span class="visually-hidden">Next</span>
-                                                            </button>
-                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </div>
                                             <div id="tab3" class="tab-pane fade">
                                                 <div class="row mt-2">
                                                     <div class="col-md-12 col-sm-12 mx-auto ">
-                                                        <div class="mx-auto row my-2 px-5">
-                                                            <div class="w-25 btn-group">
-                                                                <button class="btn btn-sm btn-outline-primary">See Current Menu</button>
-                                                                <button class="btn btn-sm btn-danger">Remove</button>
-                                                            </div>
-                                                        </div>
-                                                        <form class="form">
-                                                            <div class="row mx-auto px-5">
-                                                                <div class="col-md-6 my-2 col-sm-12">
-                                                                    <label class="fw-bold" for="thumbnail">News Thumbnail</label>
-                                                                    <input required class="form-control" id="thumbnail" type="file">
-                                                                </div>
-                                                            </div>
-                                                        </form>
+                                                        <img style="" class="rounded w-100 h-100" src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/restaurant-menu-template-design-e152fedef4e15f5f79f8238074f9c312_screen.jpg?ts=1617618765" alt="">
                                                     </div>
                                                 </div>
                                             </div>
