@@ -28,6 +28,10 @@
             border: none !important;
         }
 
+        a{
+            text-decoration: none !important;
+        }
+
         .dataTables_filter{
             display: flex;
             justify-content: end;
