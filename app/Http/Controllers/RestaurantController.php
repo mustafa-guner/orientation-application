@@ -20,6 +20,32 @@ class RestaurantController extends Controller
         return view("restaurant.show",compact("restaurant"));
     }
 
+    public function edit($restaurant_id){
+        $restaurant = Restaurant::where("restaurant_id",'=',$restaurant_id)->first();
+        $cities = City::all();
+        return view("restaurant.edit",compact("restaurant","cities"));
+    }
+
+    public function getRestaurantByID($restaurant_id){
+
+        $restaurant = Restaurant::where("restaurant_id",'=',$restaurant_id)->first();
+        if(!$restaurant) abort(404);
+
+        try{
+            if (request()->wantsJson()) {
+                return response()->json(["success"=>true,"restaurant"=>$restaurant]);
+            }
+
+            return view("restaurant.index",compact("restaurant"));
+        }catch(\Exception $exception){
+
+            if (request()->wantsJson()) {
+                return response()->json(["success" => false, "message" => $exception->getMessage()]);
+            }
+            return redirect()->back()->with("error",["message"=>$exception->getMessage()]);
+        }
+    }
+
     /**
      * @return false|string
      */

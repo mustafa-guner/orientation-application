@@ -17,7 +17,9 @@ use App\Http\Controllers\ReservationController;
 |
 */
 
-//Email Send Test Route
+/**
+ * Email Send Test Route
+ */
 Route::get('email-test', function(){
     $details['email'] = 'mustafa-guner.guner@outlook.com';
     $details["from"] = "From Name";
@@ -57,23 +59,30 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         /**
          * Restaurant Routes
          */
-        Route::get("/restaurant/fetch",[RestaurantController::class,"fetch"]);
-        Route::get("/restaurant/create-restaurant",[RestaurantController::class,"create"]);
-        Route::post("/restaurant/create-restaurant",[RestaurantController::class,"createRestaurant"]);
+        Route::get("restaurant/fetch",[RestaurantController::class,"fetch"]);
+        Route::get("restaurant/create-restaurant",[RestaurantController::class,"create"]);
+        Route::post("restaurant/create-restaurant",[RestaurantController::class,"createRestaurant"]);
+        Route::get('restaurant/{restaurant_id}/edit', [RestaurantController::class,"edit"])->middleware( 'check-restaurant-owner');
+
+        /**
+         * Restaurant Owner Routes
+         */
         Route::group(["middleware"=>['ensure_restaurant_created']],function (){
-            Route::get("/restaurant/my-restaurant",[RestaurantController::class,"show"])->name("myRestaurant");
+            Route::get("restaurant/my-restaurant",[RestaurantController::class,"show"])->name("myRestaurant");
         });
 
-        Route::post("/reservation/{restaurant_id}",[ReservationController::class,"create"]);
+        Route::get("restaurant/{restaurant_id}",[RestaurantController::class,"getRestaurantByID"]);
+
 
         /**
          * Reservation DataTable Actions
          */
+        Route::post("reservation/{restaurant_id}",[ReservationController::class,"create"]);
         Route::get("reservation/my-reservations",[ReservationController::class,"myReservations"]);
-        Route::get("/reservation/{restaurant_id}",[ReservationController::class,"fetch"]);
-        Route::post("/reservation/confirm/{reservation_id}/restaurant/{restaurant_id}",[ReservationController::class,"confirm"]);
-        Route::post("/reservation/reject/{reservation_id}/restaurant/{restaurant_id}",[ReservationController::class,"reject"]);
-        Route::delete("/reservation/remove/{reservation_id}/restaurant/{restaurant_id}",[ReservationController::class,"remove"]);
+        Route::get("reservation/{restaurant_id}",[ReservationController::class,"fetch"]);
+        Route::post("reservation/confirm/{reservation_id}/restaurant/{restaurant_id}",[ReservationController::class,"confirm"]);
+        Route::post("reservation/reject/{reservation_id}/restaurant/{restaurant_id}",[ReservationController::class,"reject"]);
+        Route::delete("reservation/remove/{reservation_id}/restaurant/{restaurant_id}",[ReservationController::class,"remove"]);
 
         /**
          * Logout Routes

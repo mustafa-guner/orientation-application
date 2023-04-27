@@ -22,7 +22,7 @@ class InsertReservationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'reservation_date'=>'required|date',
+            'reservation_date'=>'required|date|after_or_equal:today',
             'users_no'=>'required',
             'comment'=>'nullable|string',
             'door'=>'required|string',

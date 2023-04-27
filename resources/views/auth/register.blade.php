@@ -82,23 +82,12 @@
                     </div>
 
                     <div class="row my-2">
-                        <div class="col-md-6 col-sm-12">
+                        <div class="col-md-12 col-sm-12">
                             <label class="fw-bold" for="phone_no">Phone No</label>
                             <input class="form-control" required type="text" name="phone_no" value="5338673755"  id="phone_no">
                             @if ($errors->has('phone_no'))
                                 <span class="text-danger text-left">{{ $errors->first('phone_no') }}</span>
                             @endif
-                        </div>
-                        <div class="col-md-6 col-sm-12">
-                            <label for="account_type" class="fw-bold">
-                                Account type
-                            </label>
-                            <select class="form-control w-100" id="account_type" name="user_type_id" required>
-                                <option class="w-100">Please select</option>
-                                @foreach($userTypes as $userType)
-                                    <option class="w-100 form-control" value="{{$userType->user_type_id}}">{{$userType->title}}</option>
-                                @endforeach
-                            </select>
                         </div>
                     </div>
 

@@ -44,6 +44,11 @@
 @section("content")
 
 <div class="card rounded-3 px-4 py-2 my-5">
+    @if(session("error"))
+        <div class="alert alert-danger" role="alert">
+           {{session("error")}}
+        </div>
+    @endif
     <div class="row my-5">
         <div class="col-md-3 col-sm-12">
             <div class="card custom-card mt-5 p-3">
@@ -168,9 +173,10 @@
                                 </div>
 
                                 <div class="d-flex justify-content-end">
-                                    <button data-target-id="{{ $restaurant->restaurant_id }}" class="btn btn-primary btn-sm text-right w-100 mt-3" data-bs-toggle="modal" data-bs-target="#details-modal" data-bs-whatever="@mdo">
+                                   <!-- <button data-target-id="{{ $restaurant->restaurant_id }}" class="btn btn-primary btn-sm text-right w-100 mt-3" data-bs-toggle="modal" data-bs-target="#details-modal" data-bs-whatever="@mdo">
                                         News
-                                    </button>
+                                    </button> -->
+                                    <a href="{{url("restaurant/$restaurant->restaurant_id")}}" class="btn btn-primary btn-sm text-right w-100 mt-3">Visit</a>
                                 </div>
                                 <div class="d-flex justify-content-end">
                                     <button data-target-id="{{ $restaurant->restaurant_id }}" class="btn btn-primary btn-sm text-right w-100 mt-3" data-bs-toggle="modal" data-bs-target="#reservation-modal" data-bs-whatever="@mdo">
@@ -193,23 +199,21 @@
                 <h5 class="modal-title" id="exampleModalLabel">Book Your Table <span id="restaurant_name"></span></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="modal-body">
                 <form>
                     <div class="mb-3">
                         <label for="reservation_date" class="col-form-label">Reservation Date:</label>
-                        <input type="date" class="form-control" id="reservation_date">
+                        <input required type="date" class="form-control" id="reservation_date">
                     </div>
                     <div class="mb-3">
                         <label for="people_no" class="col-form-label">Number Of People:</label>
-                        <input type="number" class="form-control" id="people_no">
+                        <input required type="number" class="form-control" id="people_no">
                     </div>
                     <div class="mb-3">
                         <label for="door" class="col-form-label">Indoor/Outdoor</label>
-                       <select id="door" name="door" class="form-control">
-                           <option>Please Select</option>
-                           <option value="in_door">Indoor</option>
-                           <option value="out_door">Outdoor</option>
-                       </select>
+                        <select required id="door" name="door" class="form-control">
+                            <option>Please Select</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="comment" class="col-form-label">Comment:</label>
@@ -291,9 +295,27 @@
 <script>
 
     $(document).ready(function () {
+
+        $(".alert-danger").delay(5000).fadeOut('slow');
+
+
         //Create new reservation modal
         $("#reservation-modal").on("show.bs.modal", function (e) {
             const restaurant_id = $(e.relatedTarget).data('target-id');
+            $.ajax({
+                type:"GET",
+                url:`{{url("restaurant/")}}/${restaurant_id}`,
+            }).done(function (result){
+               if(result.success){
+                   const door = $("#door");
+                   const restaurant = result.restaurant;
+                   door.html(`
+                     ${restaurant.has_indoor ? '<option value="in_door">Indoor</option>': ''}
+                     ${restaurant.has_outdoor ?  '<option value="out_door">Outdoor</option>':''}
+                `)
+               }
+            })
+
            $("#createReservation").on("click",function (){
                 $.ajax({
                     url: `{{url("reservation/")}}/${restaurant_id}`,
@@ -308,16 +330,18 @@
                 }).done(function(result){
                     if(result.success){
                      return Swal.fire(
-                            'Good job!',
-                            'You clicked the button!',
+                            'Success!',
+                            'Reservation request has been sent!',
                             'success'
                         )
                     }
                 }).fail(function (err){
-                    const error_message = JSON.parse(err.responseText);
+                    const failed_result = JSON.parse(err.responseText);
+                    const errors = failed_result.errors;
+                    const errorMessage = Object.keys(errors).map(err=>errors[err])[0].join("")
                     return Swal.fire(
                         'error',
-                        error_message.message,
+                        errorMessage,
                         'error'
                     )
                 })

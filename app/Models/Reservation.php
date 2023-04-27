@@ -14,8 +14,7 @@ class Reservation extends Model
       'reservation_date',
       'users_no',
       'comment',
-      'in_door',
-      'out_door',
+      'door_id',
       'status_id',
       'restaurant_id',
       'reserved_by'
