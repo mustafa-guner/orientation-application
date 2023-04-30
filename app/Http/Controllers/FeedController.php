@@ -16,35 +16,31 @@ class FeedController extends Controller
         $query = Restaurant::query();
         $user = auth()->user();
         $cities = City::all();
+        $search = $request->input("q");
 
-        if($request->has("city_id")){
+        if($request->filled("city_id")){
             $query->where("city_id","=",$request->input("city_id"));
         }
 
-         elseif($request->has("doom")){
-            $indoor = $request->input("door") == "in_door";
-            $outdoor = $request->input("door") == "out_door";
-            if($indoor){
-                $query->where("has_indoor",'=',1);
-            }
-            elseif($outdoor){
-                $query->where("has_outdoor",'=',0);
-            }
+        else if($search){
+            $query->where("name",'like','%'.$search.'%');
         }
-
-       elseif($request->has("availability")){
-            $query->where("is_available","=",$request->input("availability"));
-        }
-
-        //Search by name
-        elseif ($request->has('restaurant_name')) {
-            $query->whereHas('restaurant', function ($query) use ($request) {
-                $query->where('name', 'like', '%'.$request->input('restaurant_name').'%');
-            });
-        }
-
 
         $restaurants = $query->get();
+
         return view("feed.index",compact("user","restaurants","cities"));
+    }
+
+    public function search(Request $request){
+        try{
+
+            $query = $request->input("q");
+            $user = auth()->user();
+            $restaurants = Restaurant::where("name",'like','%'.$query.'%')->get();
+            $cities = City::all();
+            return view("feed.index",compact("restaurants","cities","user"));
+        }catch(\Exception $exception){
+            return redirect()->back()->with("error",$exception->getMessage());
+        }
     }
 }

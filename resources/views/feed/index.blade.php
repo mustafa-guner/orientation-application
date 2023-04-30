@@ -122,6 +122,11 @@
                             {{$user->gender->name}}
                         </div>
                         <div class="mb-2">
+                            <p class="fw-bold my-0"><i class="fa-solid fa-cake-candles"></i> Birth Date</p>
+                          {{ \Carbon\Carbon::parse($user->birth_date)->format('Y-m-d') }}
+
+                        </div>
+                        <div class="mb-2">
                             <p class="fw-bold my-0"><i class="fa-solid fa-building"></i> City</p>
                             {{$user->city->name}}
                         </div>
@@ -139,9 +144,9 @@
                         <h3 class="fw-bold">My feed</h3>
                     </div>
                     <div class="col-md-6 col-sm-12 pr-0">
-                        <form class="d-flex btn-group mr-0">
-                            <input type="search" class="form-control" placeholder="Search for restaurant...">
-                            <button class="btn btn-primary btn-sm">Search</button>
+                        <form method="GET" action="{{url("/")}}" class="d-flex btn-group mr-0">
+                            <input name="q" type="search" id="search_input" class="form-control" placeholder="Search for restaurant..."/>
+                            <button type="submit" class="btn btn-primary btn-sm">Search</button>
                         </form>
                     </div>
                 </div>
@@ -197,7 +202,7 @@
                         </div>
                     @endforeach
                     @else
-                        <h3 class="fw-bold text-center">No Restaurant Found.</h3>
+                        <h3 class="my-5  text-center text-muted">No Restaurant Found.</h3>
                     @endif
                 </div>
             </div>
@@ -215,17 +220,13 @@
                     <form>
                         <div class="row mb-3">
                             <div class="col-6">
-                                <label for="reservation_date" class="col-form-label">Reservation Date:</label>
-                                <input required type="date" class="form-control" id="reservation_date">
+                                <label for="reservation_date" class="col-form-label">Reservation Date/Time:</label>
+                                <input required type="datetime-local" class="form-control" id="reservation_date">
                             </div>
                             <div class="col-6">
-                                <label for="reservation_time" class="col-form-label">Reservation Time:</label>
-                                <input required type="time" class="form-control" id="reservation_time">
+                                <label for="people_no" class="col-form-label">Number Of People:</label>
+                                <input required type="number" class="form-control" id="people_no">
                             </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="people_no" class="col-form-label">Number Of People:</label>
-                            <input required type="number" class="form-control" id="people_no">
                         </div>
                         <div class="mb-3">
                             <label for="door" class="col-form-label">Indoor/Outdoor</label>
@@ -261,10 +262,11 @@
                     <table id="my_reservations_table" class=" mt-0 table table-bordered data-table">
                         <thead>
                         <th>Restaurant Name</th>
+                        <th>Visitors</th>
                         <th>Indoor/Outdoor</th>
                         <th>Comment</th>
-                        <th>Reservation Date</th>
-                        {{--                        <th>Action Date</th>--}}
+                        <th>Reserv. Date</th>
+                        {{--<th>Action Date</th>--}}
                         <th>Status</th>
                         </thead>
                     </table>
@@ -283,6 +285,14 @@
 <script>
 
     $(document).ready(function () {
+
+        const urlParams = new URLSearchParams(window.location.search);
+
+        // get the value of the 'q' parameter
+        const searchQuery = urlParams.get('q');
+
+        if(searchQuery)
+        $("#search_input").val(searchQuery);
 
         $(".alert-danger").delay(5000).fadeOut('slow');
         $(".alert-success").delay(5000).fadeOut('slow');
@@ -357,6 +367,7 @@
                 },
                 columns:[
                     {data:"restaurant_name",name:"restaurant_name"},
+                    {data:"users_no"},
                     {data: 'door',name:"door"},
                     {data:"comment",defaultContent:"-",width: "25%"},
                     {data: 'reservation_date', orderable: true, searchable: true},

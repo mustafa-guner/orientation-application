@@ -63,6 +63,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
          * Feed Routes
          */
         Route::get("/",[FeedController::class,"myFeed"])->name("feed");
+        Route::get("/search",[FeedController::class,"search"])->name("searchRestaurants");
 
         /**
          * Restaurant Routes

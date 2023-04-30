@@ -22,10 +22,13 @@ class RestaurantController extends Controller
 
     public function show(Request $request){
         $restaurant = auth()->user()->restaurant;
+
         $reservations = Reservation::where("restaurant_id","=",$restaurant->restaurant_id)->count();
         $confirmed_reservations = Reservation::where("restaurant_id","=",$restaurant->restaurant_id)->where("status_id","=",Status::CONFIRMED)->count();
         $pending_reservations = Reservation::where("restaurant_id","=",$restaurant->restaurant_id)->where("status_id","=",Status::PENDING)->count();
         $rejected_reservations = Reservation::where("restaurant_id","=",$restaurant->restaurant_id)->where("status_id","=",Status::REJECTED)->count();
+
+
 
         $result = [
             "restaurant"=>$restaurant,
@@ -34,6 +37,7 @@ class RestaurantController extends Controller
             "pending_reservations"=>$pending_reservations,
             "rejected_reservations"=>$rejected_reservations
         ];
+
 
         //If there is query search params for editing news
         if($request->query("news")){

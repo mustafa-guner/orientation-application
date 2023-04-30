@@ -89,7 +89,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 col-sm-12 ">
-                                                        <button class="btn btn-sm btn-primary">See Details</button>
+                                                        <!--  <button class="btn btn-sm btn-primary">See Details</button> -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -102,7 +102,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12 col-sm-12 ">
-                                                        <button class="btn btn-sm btn-info text-white">See Details</button>
+                                                        <!--  <button class="btn btn-sm btn-info text-white">See Details</button> -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -115,7 +115,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 col-sm-12 ">
-                                                        <button class="btn btn-sm btn-success">See Details</button>
+                                                        <!--  <button class="btn btn-sm btn-success">See Details</button> -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -129,7 +129,7 @@
 
                                                     </div>
                                                     <div class="col-md-6 col-sm-12 ">
-                                                        <button class="btn btn-sm btn-danger">See Details</button>
+                                                       <!-- <button class="btn btn-sm btn-danger">See Details</button> -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -171,7 +171,7 @@
                                             <div class="col-12">
                                                 @if(isset($news))
 
-                                                    <a class="my-2 btn btn-sm btn-success" href="{{url("restaurant/my-restaurant#tab3")}}">Create new</a>
+                                                    <a class="my-2 btn btn-sm btn-success" href="{{url("restaurant/my-restaurant#tab3")}}">Cancel Edit</a>
 
                                                     <form id="updateNews" method="POST" action="{{url("news/$restaurant->restaurant_id/$news->news_id/update")}}" enctype="multipart/form-data">
                                                         @else

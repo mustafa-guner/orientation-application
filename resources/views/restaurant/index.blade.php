@@ -61,8 +61,8 @@
                            <li class="list-group-item">Facebook: @if($restaurant->facebook_link)  <a class="link-primary" href="{{$restaurant->facebook_link}}" target="_blank">{{$restaurant->facebook_link}}</a> @else -@endif </li>
                            <li class="list-group-item">Instagram: @if($restaurant->instagram_link)  <a class="link-primary" href="{{$restaurant->instagram_link}}" target="_blank">{{$restaurant->instagram_link}}</a> @else -@endif </li>
                            <li class="list-group-item text-success fw-bold">Currently Open</li>
-                           <button class="btn btn-sm btn-primary my-2 text-right">Book Now</button>
                        </ul>
+                       <button  data-target-id="{{ $restaurant->restaurant_id }}" class="btn btn-primary btn-sm text-right w-100 mt-3" data-bs-toggle="modal" data-bs-target="#reservation-modal" data-bs-whatever="@mdo">Book Now</button>
                    </div>
                </div>
                <div class="col-md-9 col-sm-12">
@@ -178,14 +178,109 @@
        </div>
    </div>
 
+   <div class="modal fade" id="reservation-modal" tabindex="-1" aria-labelledby="reservation-modal" aria-hidden="true">
+       <div class="modal-dialog modal-dialog-centered">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title" id="exampleModalLabel">Book Your Table <span id="restaurant_name"></span></h5>
+                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body" id="modal-body">
+                   <form>
+                       <div class="row mb-3">
+                           <div class="col-6">
+                               <label for="reservation_date" class="col-form-label">Reservation Date/Time:</label>
+                               <input required type="datetime-local" class="form-control" id="reservation_date">
+                           </div>
+                           <div class="col-6">
+                               <label for="people_no" class="col-form-label">Number Of People:</label>
+                               <input required type="number" class="form-control" id="people_no">
+                           </div>
+                       </div>
+                       <div class="mb-3">
+                           <label for="door" class="col-form-label">Indoor/Outdoor</label>
+                           <select required id="door" name="door" class="form-control">
+                               <option>Please Select</option>
+                           </select>
+                       </div>
+                       <div class="mb-3">
+                           <label for="comment" class="col-form-label">Comment:</label>
+                           <textarea name="comment" class="form-control" id="comment"></textarea>
+                       </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+                   </form>
+               </div>
+               <div class="modal-footer">
+                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                   <button id="createReservation" type="button" class="btn btn-primary">Submit</button>
+               </div>
+           </div>
+       </div>
+   </div>
+
+
+
+
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
     <script>
 
         $(document).ready(function () {
 
             $(".alert-danger").delay(5000).fadeOut('slow');
 
+
+            //Create new reservation modal
+            $("#reservation-modal").on("show.bs.modal", function (e) {
+                const restaurant_id = $(e.relatedTarget).data('target-id');
+                $.ajax({
+                    type:"GET",
+                    url:`{{url("restaurant/")}}/${restaurant_id}`,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                }).done(function (result){
+                    if(result.success){
+                        const door = $("#door");
+                        const restaurant = result.restaurant;
+                        door.html(`
+                     ${restaurant.has_indoor ? '<option value="in_door">Indoor</option>': ''}
+                     ${restaurant.has_outdoor ?  '<option value="out_door">Outdoor</option>':''}
+                `)
+                    }
+                })
+
+                $("#createReservation").on("click",function (){
+                    $.ajax({
+                        url: `{{url("reservation/")}}/${restaurant_id}`,
+                        type:"POST",
+                        data:{
+                            '_token': "{{ csrf_token() }}",
+                            'reservation_date':$("#reservation_date").val(),
+                            'users_no':$("#people_no").val(),
+                            'door':$("#door").val(),
+                            'comment':$("#comment").val(),
+                        }
+                    }).done(function(result){
+                        if(result.success){
+                            return Swal.fire(
+                                'Success!',
+                                'Reservation request has been sent!',
+                                'success'
+                            )
+                        }
+                    }).fail(function (err){
+                        const failed_result = JSON.parse(err.responseText);
+                        const errors = failed_result.errors;
+                        const errorMessage = Object.keys(errors).map(err=>errors[err])[0].join("")
+                        return Swal.fire(
+                            'error',
+                            errorMessage,
+                            'error'
+                        )
+                    })
+                })
+            });
 
         });
 

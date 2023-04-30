@@ -7,6 +7,7 @@ use App\Models\News;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 
 class NewsController extends Controller
@@ -69,6 +70,9 @@ class NewsController extends Controller
            return DataTables::of($news)
                ->addColumn("created_at",function ($news){
                    return Carbon::parse($news->created_at)->format('d/m/Y  H:i:s');
+               })
+               ->addColumn("description",function($news){
+                   return Str::limit($news->description, 120, ' ...');
                })
                ->make(true);
         }catch(\Exception $e){

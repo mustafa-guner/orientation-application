@@ -147,13 +147,13 @@ class ReservationController extends Controller
 //           ->orderBy('created_at', 'desc')
 //           ->get();
 
-       //ALTERNATIVE WAY TO JOIN TABLES
-
+       //ALTERNATIVE WAY OF JOINING TABLES
       $reservations =  DB::table("reservations")
            ->join("users",'reservations.reserved_by','=','users.user_id')
            ->join("status",'reservations.status_id','=','status.status_id')
            ->join("restaurant","reservations.restaurant_id",'=','restaurant.restaurant_id')
-           ->select(
+          ->where("restaurant.owner_id","=",auth()->user()->user_id)
+          ->select(
                "reservations.*",
                'users.first_name',
                'users.last_name',
