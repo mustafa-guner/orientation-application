@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\NewsController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -40,5 +41,13 @@ class Restaurant extends Model
 
   public function owner(){
       return $this->belongsTo(User::class,"owner_id");
+  }
+
+  public function news(){
+      return $this->hasMany(News::class,"restaurant_id");
+  }
+
+  public function menu(){
+      return $this->hasOne(Menu::class,"restaurant_id");
   }
 }

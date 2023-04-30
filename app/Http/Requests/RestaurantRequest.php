@@ -21,7 +21,7 @@ class RestaurantRequest extends FormRequest
      */
     public function rules(): array
     {
-//        dd($this->request);
+
         return [
             'name'=>'required|string|max:255',
             'description'=>'string|max:255|nullable',

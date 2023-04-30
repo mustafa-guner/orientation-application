@@ -6,6 +6,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FeedController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\GuestController;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\MenuController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,6 +40,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 {
     Route::group(['middleware' => ['guest']], function() {
         /**
+         * Home Route
+         */
+        Route::get("/home",[GuestController::class,"home"]);
+
+        /**
          * Register Routes
          */
         Route::get("/register",[AuthController::class,"registerPage"]);
@@ -63,6 +71,22 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get("restaurant/create-restaurant",[RestaurantController::class,"create"]);
         Route::post("restaurant/create-restaurant",[RestaurantController::class,"createRestaurant"]);
         Route::get('restaurant/{restaurant_id}/edit', [RestaurantController::class,"edit"])->middleware( 'check-restaurant-owner');
+        Route::post('restaurant/{restaurant_id}/edit', [RestaurantController::class,"update"])->middleware( 'check-restaurant-owner');
+
+        /**
+         * Menu Routes
+         */
+        Route::post("menu/{restaurant_id}/create",[MenuController::class,"create"])->middleware("check-restaurant-owner");
+        Route::get("menu/{restaurant_id}/fetch",[MenuController::class,"fetch"]);
+
+
+        /**
+         * News Routes
+         */
+        Route::post("news/{restaurant_id}/create",[NewsController::class,"store"])->middleware("check-restaurant-owner");
+        Route::get("news/fetch/{restaurant_id}",[NewsController::class,"fetch"]);
+        Route::delete("news/{restaurant_id}/{news_id}/remove",[NewsController::class,"destroy"])->middleware("check-restaurant-owner");
+        Route::post("news/{restaurant_id}/{news_id}/update",[NewsController::class,"edit"])->middleware("check-restaurant-owner");
 
         /**
          * Restaurant Owner Routes
@@ -70,7 +94,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::group(["middleware"=>['ensure_restaurant_created']],function (){
             Route::get("restaurant/my-restaurant",[RestaurantController::class,"show"])->name("myRestaurant");
         });
-
         Route::get("restaurant/{restaurant_id}",[RestaurantController::class,"getRestaurantByID"]);
 
 

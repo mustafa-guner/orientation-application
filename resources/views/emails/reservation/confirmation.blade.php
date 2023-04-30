@@ -324,7 +324,7 @@
                                                            style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                                                         <tr style="border-collapse:collapse">
                                                             <td align="center" style="padding:0;Margin:0;">
-                                                                <h1>Reservation<span class="text-danger">Book</span>
+                                                                <h1>Chinese<span class="text-danger">House</span>
                                                                 </h1>
                                                                 <!-- <img class="adapt-img"
                                                                     src="https://oaooet.stripocdn.email/content/guids/CABINET_a98848efd14124189e64c75ce0627a00/images/25891612422279110.png"
@@ -420,9 +420,9 @@
                                                                     <p>Thank you for choosing us, and we look
                                                                         forward to seeing you discover new
                                                                         restaurants and cafes!</p>
-                                                                    <p>ReservationBook Marketing & Software Development Team</p>
+                                                                    <p>ChineseHouse Marketing & Software Development Team</p>
                                                                     <p>E-mail: <a
-                                                                            href="mailto=ciuclubs@ciu.edu.tr">reservationbook@gmail.com</a>
+                                                                            href="mailto=chinesehouse@outlook.com">chinesehouse@outlook.com</a>
                                                                     </p>
                                                                 </div>
                                                             </td>

@@ -43,6 +43,8 @@ class AuthController extends Controller
                 request()->profile_image->move(public_path('profile_images'), $profile_image);
             }
             $requestBody = $request->validated();
+            //Create 'Normal User' account as default
+            $requestBody["user_type_id"] = UserType::NORMAL_USER;
             $requestBody["profile_image"] = $profile_image;
             $user = User::create($requestBody);
 

@@ -1,0 +1,59 @@
+body{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+footer {
+    margin-top: auto;
+}
+.card{
+    border: none !important;
+}
+
+a{
+    text-decoration: none !important;
+}
+
+.dataTables_filter{
+    display: flex;
+    justify-content: end;
+    margin-bottom: .6rem;
+}
+
+.dataTables_paginate{
+    display: flex;
+    justify-content: end;
+}
+
+.card .card-body p.card-description {
+    height: 80px !important;
+}
+.card .card-body img{
+    height: 300px !important;
+    object-fit: cover;
+}
+
+.custom-card{
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+.restaurant-card{
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    height: 100% !important;
+}
+
+.alert-danger,.alert-success{
+    position: fixed !important;
+    top: 10px !important;
+    left: 10px !important;
+    width: auto !important;
+}
+
+.bg-image{
+    background-image: url("https://hotel.bold-themes.com/winter/wp-content/uploads/sites/3/2016/09/winter-hero-restaurant-overlay-large.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: calc(100vh - 150px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

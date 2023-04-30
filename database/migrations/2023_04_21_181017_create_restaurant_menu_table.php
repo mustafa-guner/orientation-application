@@ -12,10 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('restaurant_menu', function (Blueprint $table) {
-            $table->id("restaurant_menu_id");
-            $table->string("title");
-            $table->string("image");
-            $table->text("ingredients");
+            $table->id("menu_id");
+            $table->text("menu_image");
             $table->unsignedBigInteger('restaurant_id');
             $table->foreign("restaurant_id")->references("restaurant_id")->on("restaurant")->onDelete("cascade");
             $table->timestamps();
