@@ -46,14 +46,14 @@
 <div class="container">
     <div class="card rounded-3 px-4 py-2 my-5">
         @if(session("error"))
-            <div class="alert alert-danger" role="alert">
+            <div class="alert alert-danger fw-bold" role="alert">
                 {{session("error")}}
             </div>
         @endif
 
             @if(session("success"))
-                <div class="alert alert-success" role="alert">
-                    {{session("success")}}
+                <div class="alert alert-success fw-bold" role="alert">
+                   {{session("success")}}
                 </div>
             @endif
 

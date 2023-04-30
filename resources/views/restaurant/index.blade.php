@@ -125,19 +125,22 @@
                                                <div id="tab2" class="tab-pane fade">
                                                    <div class="row mt-2">
                                                        <div class="col-md-12 col-sm-12 mx-auto ">
-                                                           <div class="accordion" id="accordionPanelsStayOpenExample">
+                                                           <div class="row">
                                                             @if(count($restaurant->news) > 0)
                                                               @foreach($restaurant->news as $news)
-                                                                  <div class="card">
-                                                                      <div class="card-header">
-                                                                          <h4>{{$news->title}}</h4>
-                                                                      s="card-body">
+                                                                  <div class="card px-2 py-2 my-3 col-12">
+                                                                      <div class="card-header ">
+                                                                          <h4 class="fw-bold">{{$news->title}}</h4>
+                                                                          <small><span class="fw-bold">Created At: </span>{{$news->created_at}}</small>
+                                                                      </div>
+                                                                      <div class="card-body">
                                                                           <div>
-                                                                              <img src="{{url("thumbnail_images/$news->thumbnail_image")}}" class="w-50 h-50 mx-auto" alt="">
+                                                                              <img src="{{url("thumbnail_images/$news->thumbnail_image")}}" class="w-100 h-50 mx-auto" alt="">
                                                                           </div>
-                                                                          <div>
-                                                                              {{$news->description}}
-                                                                          </div>
+                                                                      </div>
+                                                                      <div class="card-footer">
+                                                                          <h5>Description</h5>
+                                                                          @php echo htmlspecialchars_decode($news->description) @endphp
                                                                       </div>
                                                                   </div>
                                                                    @endforeach
@@ -154,7 +157,7 @@
                                                    <div class="row mt-2">
                                                        <div class="col-md-12 col-sm-12 mx-auto ">
 
-                                                           @if($menu->menu_image)
+                                                           @if(isset($menu) && $menu->menu_image != null)
                                                            <img style="" class="rounded w-100 h-100" src="{{url("menu_images/")."/".$menu->menu_image}}" alt="">
                                                             @else
                                                             <h3>No Menu Uploaded</h3>

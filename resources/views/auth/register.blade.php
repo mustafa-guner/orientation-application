@@ -18,14 +18,14 @@
                                    <label class="text-white label fw-bold" for="first_name">
                                        First Name
                                    </label>
-                                   <input type="text" name="first_name" class="form-control" value="Mustafa" id="first_name" placeholder="Enter Firstname" required>
+                                   <input type="text" name="first_name" class="form-control" id="first_name" placeholder="John" required>
                                    @if ($errors->has('first_name'))
                                        <span class="text-danger text-left">{{ $errors->first('first_name') }}</span>
                                    @endif
                                </div>
                                <div class="col-md-6 col-sm-12">
                                    <label class="text-white fw-bold" for="last_name">Surname</label>
-                                   <input type="text" name="last_name" value="Guner" class="form-control" placeholder="Enter Lastname" id="last_name" required>
+                                   <input type="text" name="last_name"  class="form-control" placeholder="Doe" id="last_name" required>
                                    @if ($errors->has('last_name'))
                                        <span class="text-danger text-left">{{ $errors->first('last_name') }}</span>
                                    @endif
@@ -35,14 +35,14 @@
                            <div class="row my-2">
                                <div class="col-md-6 col-sm-12">
                                    <label class="text-white label fw-bold" for="email">Email</label>
-                                   <input required type="email" class="form-control" name="email" value="test@outlook.com" placeholder="Enter Email" id="email">
+                                   <input required type="email" class="form-control" name="email"  placeholder="test@outlook.com" id="email">
                                    @if ($errors->has('email'))
                                        <span class="text-danger text-left">{{ $errors->first('email') }}</span>
                                    @endif
                                </div>
                                <div class="col-md-6 col-sm-12">
                                    <label class="text-white fw-bold" for="password">Password</label>
-                                   <input type="password" name="password" class="form-control" value="asdf1234" placeholder="Enter Password" id="password" required>
+                                   <input type="password" name="password" class="form-control"  placeholder="Enter Password" id="password" required>
                                    @if ($errors->has('password'))
                                        <span class="text-danger text-left">{{ $errors->first('password') }}</span>
                                    @endif
@@ -85,7 +85,7 @@
                            <div class="row my-2">
                                <div class="col-md-12 col-sm-12">
                                    <label class="text-white fw-bold" for="phone_no">Phone No</label>
-                                   <input class="form-control" required type="text" name="phone_no" value="5338673755"  id="phone_no">
+                                   <input class="form-control" required type="text" name="phone_no" placeholder="xxxx xxx xx xx"  id="phone_no">
                                    @if ($errors->has('phone_no'))
                                        <span class="text-danger text-left">{{ $errors->first('phone_no') }}</span>
                                    @endif

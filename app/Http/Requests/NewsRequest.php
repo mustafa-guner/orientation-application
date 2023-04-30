@@ -22,7 +22,7 @@ class NewsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'=>'string|required|max:255',
+            'title'=>'string|required',
             'description'=>'string|required',
             'thumbnail_image'=>'required|file|mimes:jpg,png,gif,jpeg,svg|max:1024',
         ];

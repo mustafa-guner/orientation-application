@@ -43,9 +43,11 @@ a{
 
 .alert-danger,.alert-success{
     position: fixed !important;
-    top: 10px !important;
-    left: 10px !important;
-    width: auto !important;
+    top: 0 !important;
+    left: 0 !important;
+    text-align: center;
+    right: 0 !important;
+    width: 100% !important;
 }
 
 .bg-image{
