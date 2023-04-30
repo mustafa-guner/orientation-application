@@ -1,6 +1,10 @@
 @extends('layouts.master')
 @section("title","Home")
-
+<style>
+    body{
+        background-color: #fff !important;
+    }
+</style>
 @section("content")
 <main>
     <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -11,35 +15,34 @@
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+                <img class="bd-placeholder-img h-50 w-100" src="https://chinesehousecyprus.net/img/gallery/1.png" alt="">
 
                 <div class="container">
                     <div class="carousel-caption text-start">
-                        <h1>Example headline.</h1>
-                        <p>Some representative placeholder content for the first slide of the carousel.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
+                        <h1>Our new interior design.</h1>
+                        <p>Better service from the east ambiance.</p>
+                        <p><a class="btn btn-lg btn-primary" href="{{url("/register")}}">Sign up today</a></p>
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
-                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+                <img class="bd-placeholder-img w-100 h-50" src="https://chinesehousecyprus.net/img/gallery/3.png" alt="">
 
                 <div class="container">
                     <div class="carousel-caption">
-                        <h1>Another example headline.</h1>
-                        <p>Some representative placeholder content for the second slide of the carousel.</p>
-
+                        <h1>Renewed Menu.</h1>
+                        <p>We renewed our menu and staff you serve you better.</p>
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
-                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+
+                <img class="bd-placeholder-img h-50 w-100" src="https://chinesehousecyprus.net/img/gallery/4.png" alt="">
 
                 <div class="container">
                     <div class="carousel-caption text-end">
                         <h1>One more for good measure.</h1>
-                        <p>Some representative placeholder content for the third slide of this carousel.</p>
-
+                        <p>Decorations are matter for us to keep east ambiance in peace.</p>
                     </div>
                 </div>
             </div>
@@ -70,12 +73,11 @@
 
         <div class="row featurette">
             <div class="col-md-7">
-                <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It’ll blow your mind.</span></h2>
-                <p class="lead">Some great placeholder content for the first featurette here. Imagine some exciting prose here.</p>
+                <h2 class="featurette-heading">Welcome to Chinese House <span class="text-muted">It’ll blow your mind.</span></h2>
+                <p class="lead">Since opening for business in 1990, with over twenty years of experience now, we have been a familiar sight in the area for many years as a leading culinary destination. The kitchen of our restaurant is managed by a celebrated Hong Kong chef, and our restaurant hosts 3 Chinese and a sushi chef who are specialised on their sections. We offer great dining experience in a relaxing environment right in the heart of Kyrenia, North Cyprus.</p>
             </div>
             <div class="col-md-5">
-                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"></rect><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
-
+                <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" src="https://chinesehousecyprus.net/img/hakkimizda.jpg" alt="">
             </div>
         </div>
 
@@ -84,11 +86,10 @@
         <div class="row featurette">
             <div class="col-md-7 order-md-2">
                 <h2 class="featurette-heading">Oh yeah, it’s that good. <span class="text-muted">See for yourself.</span></h2>
-                <p class="lead">Another featurette? Of course. More placeholder content here to give you an idea of how this layout would work with some actual real-world content in place.</p>
+                <p class="lead">Since opening for business in 1990, with over twenty years of experience now, we have been a familiar sight in the area for many years.</p>
             </div>
             <div class="col-md-5 order-md-1">
-                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"></rect><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
-
+                <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" src="https://chinesehousecyprus.net/img/gallery/10.png" alt="">
             </div>
         </div>
 
@@ -97,11 +98,10 @@
         <div class="row featurette">
             <div class="col-md-7">
                 <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-                <p class="lead">And yes, this is the last block of representative placeholder content. Again, not really intended to be actually read, simply here to give you a better view of what this would look like with some actual content. Your content.</p>
+                <p class="lead">By using this application you will be able to book your table all around Cyprus. Enjoy your food!.</p>
             </div>
             <div class="col-md-5">
-                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"></rect><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
-
+                <img class="bd-placeholder-img w-100 h-100 bd-placeholder-img-lg featurette-image img-fluid mx-auto" src="{{url("app_images/feed.png")}}" alt="">
             </div>
         </div>
 

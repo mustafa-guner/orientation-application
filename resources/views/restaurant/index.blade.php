@@ -131,8 +131,7 @@
                                                                   <div class="card">
                                                                       <div class="card-header">
                                                                           <h4>{{$news->title}}</h4>
-                                                                      </div>
-                                                                      <div class="card-body">
+                                                                      s="card-body">
                                                                           <div>
                                                                               <img src="{{url("thumbnail_images/$news->thumbnail_image")}}" class="w-50 h-50 mx-auto" alt="">
                                                                           </div>
