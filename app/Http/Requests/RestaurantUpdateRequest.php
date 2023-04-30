@@ -24,7 +24,7 @@ class RestaurantUpdateRequest extends FormRequest
         return [
             'name'=>'required|string|max:255',
             'description'=>'string|max:255|nullable',
-            'profile_image'=>'required|file|mimes:jps,png,gif,jpeg,svg|max:1024',
+            'profile_image'=>'nullable|image|mimes:jps,png,gif,jpeg,svg|max:1024',
             'email'=>'string|nullable|email:rfc,dns|email',
             'address'=>'required|string',
             'phone_no'=>'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',

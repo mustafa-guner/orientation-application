@@ -126,7 +126,7 @@
                                                    <div class="row mt-2">
                                                        <div class="col-md-12 col-sm-12 mx-auto ">
                                                            <div class="row">
-                                                            @if(count($restaurant->news) > 0)
+                                                            @if($restaurant->news && count($restaurant->news) > 0)
                                                               @foreach($restaurant->news as $news)
                                                                   <div class="card px-2 py-2 my-3 col-12">
                                                                       <div class="card-header ">
@@ -145,7 +145,7 @@
                                                                   </div>
                                                                    @endforeach
                                                                @else
-                                                                <h3>No News Found</h3>
+                                                                <h3 class="text-muted text-center">No News Found</h3>
                                                                @endif
 
                                                            </div>
@@ -160,7 +160,7 @@
                                                            @if(isset($menu) && $menu->menu_image != null)
                                                            <img style="" class="rounded w-100 h-100" src="{{url("menu_images/")."/".$menu->menu_image}}" alt="">
                                                             @else
-                                                            <h3>No Menu Uploaded</h3>
+                                                            <h3 class="text-muted text-center">No Menu Uploaded</h3>
                                                            @endif
                                                        </div>
                                                    </div>

@@ -30,8 +30,6 @@ class RestaurantRequest extends FormRequest
             'address'=>'required|string',
             'phone_no'=>'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|unique:restaurant,phone_no',
             'phone_no_2'=>'nullable|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
-            'has_outdoor'=>'required',
-            'has_indoor'=>'required',
             'website_link'=>'nullable|string',
             'facebook_link'=>'nullable|string',
             'instagram_link'=>'nullable|string',

@@ -9,6 +9,7 @@
             <div class="d-flex justify-content-center justify-content-sm-end p-2">
                 <a class="btn btn-secondary mx-1" href="{{url("/restaurant/my-restaurant")}}">Back</a>
             </div>
+
             <div class="row">
                 <div class="col-md-12 col-sm-12">
                     <h3 class="mb-4">Edit Your Restaurant Details</h3>
@@ -32,7 +33,7 @@
                                         Profile Image
                                         <span class="text-danger">*</span>
                                     </label>
-                                    <input class="form-control" type="file" name="profile_image"  value="{{ $restaurant->profile_image }}" id="profile_image" required>
+                                    <input class="form-control" type="file" name="profile_image"  value="{{ $restaurant->profile_image }}" id="profile_image" >
                                     @if ($errors->has('profile_image'))
                                         <span class="text-danger text-left">{{ $errors->first('profile_image') }}</span>
                                     @endif

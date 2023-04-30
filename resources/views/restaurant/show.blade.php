@@ -246,7 +246,11 @@
                                         <div class="mx-auto row my-5 px-5">
                                             <h3>Latest Uploaded Menu</h3>
                                             <div class="col-7">
+                                                @if($restaurant->menu)
                                                 <img class="w-100 h-100" id="latest_menu">
+                                                @else
+                                                    <h5 class="text-muted">You haven't upload a menu yet.</h5>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -522,22 +526,13 @@
                     processData: false, contentType: false,
                     enctype: 'multipart/form-data',
                     success: function(response) {
-                        //Clear the form after creating
-
-                        var imageUrl = `{{url("menu_images/")}}/${response.menu.menu_image}`;
-                        var img = new Image();
-
-                        img.onload = function() {
-                            // Set the src property of the img element to the URL of the Image object
-                            $("#latest_menu").attr("src", this.src);
-                        };
-                        img.src = imageUrl;
-
                         Swal.fire(
                             "Success",
                             "Menu has been created!",
                             "success"
-                        )
+                        ).then(function(){
+                            window.location.reload();
+                        })
                     },
                     error: function(xhr, status, error) {
                         console.log(error)

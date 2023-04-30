@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RestaurantRequest;
 use App\Http\Requests\RestaurantUpdateRequest;
+use App\Http\Requests\UpdateRestaurantRequest;
 use App\Models\City;
 use App\Models\Menu;
 use App\Models\News;
@@ -55,18 +56,21 @@ class RestaurantController extends Controller
 
     public function update(RestaurantUpdateRequest $request,$restaurant_id){
         try{
+
             $restaurant = Restaurant::where("restaurant_id",'=',$restaurant_id)->first();
             if(!$restaurant) abort(404);
 
-            $profile_image = null;
+
+            $requestBody = $request->validated();
+
             if(request()->hasfile("profile_image")){
                 $profile_image = time().'_restaurant_image_'.'.'.request()->profile_image->getClientOriginalExtension();
                 request()->profile_image->move(public_path('restaurant_images'), $profile_image);
+                $requestBody["profile_image"] = $profile_image;
             }
 
-            $requestBody = $request->validated();
+
             $requestBody["owner_id"] = auth()->user()->user_id;
-            $requestBody["profile_image"] = $profile_image;
             $requestBody["has_outdoor"] == "on" ? $requestBody["has_outdoor"] = 1 : $requestBody["has_outdoor"] = 0;
             $requestBody["has_indoor"] == "on" ? $requestBody["has_indoor"] = 1 : $requestBody["has_indoor"] = 0;
             $requestBody["updated_at"] = now();
@@ -75,7 +79,7 @@ class RestaurantController extends Controller
             $restaurant->update($requestBody);
             return redirect()->route("myRestaurant")->with("success","Restaurant is updated");
         }catch(\Exception $e){
-            return redirect()->back()->with("errors","Restaurant could not be updated.");
+            return redirect()->back()->with("errors",$e->getMessage());
         }
     }
 
@@ -126,7 +130,7 @@ class RestaurantController extends Controller
             Restaurant::create($requestBody);
             return redirect()->route("myRestaurant");
         }catch(\Exception $e){
-            return redirect()->back()->with("errors","Restaurant could not be created.");
+            return redirect()->back()->with("errors",$e->getMessage());
         }
     }
 }

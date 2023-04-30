@@ -147,6 +147,7 @@
                 </div>
                 <hr>
                 <div class="row">
+                    @if(count($restaurants) > 0)
                     @foreach($restaurants as $restaurant)
                         <div id="my_modal_{{$restaurant->restaurant_id}}" class="col-md-6 col-sm-12">
                             <div class="card custom-card mb-4 rounded-2">
@@ -195,6 +196,9 @@
                             </div>
                         </div>
                     @endforeach
+                    @else
+                        <h3 class="fw-bold text-center">No Restaurant Found.</h3>
+                    @endif
                 </div>
             </div>
         </div>

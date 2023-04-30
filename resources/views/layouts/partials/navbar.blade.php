@@ -21,9 +21,13 @@
             <ul class="navbar-nav mb-2 mb-lg-0">
                 @auth
 
-                    @if(auth()->user()->user_type_id == \App\Models\UserType::RESTAURANT_OWNER)
+                    @if(auth()->user()->user_type_id == \App\Models\UserType::RESTAURANT_OWNER && auth()->user()->restaurant != null)
                         <li class="nav-item">
                             <a class="nav-link" href="{{url("/restaurant/my-restaurant")}}"><img style="width:30px;margin-right: .3rem; height: 30px; border-radius: 100%; border: 1px solid gray;" src="{{url('restaurant_images/'.auth()->user()->restaurant->profile_image)}}">My Restaurant</a>
+                        </li>
+                    @elseif(auth()->user()->user_type_id == \App\Models\UserType::RESTAURANT_OWNER && auth()->user()->restaurant == null)
+                        <li class="nav-item">
+                            <a class="nav-link mt-1" href="{{url("/restaurant/my-restaurant")}}">Create Your Restaurant</a>
                         </li>
                     @endif
                     <li class="nav-item mt-1">
