@@ -139,13 +139,15 @@ class ReservationController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-   public function fetch($restaurant_id){
+   public function fetch(Request $request){
 
 
 //       $reservations = Reservation::with("restaurant","user","status")
 //           ->where("restaurant_id",auth()->user()->restaurant->restaurant_id)
 //           ->orderBy('created_at', 'desc')
 //           ->get();
+
+       $status_query = $request->input("status_id");
 
        //ALTERNATIVE WAY OF JOINING TABLES
       $reservations =  DB::table("reservations")
@@ -161,10 +163,13 @@ class ReservationController extends Controller
                'users.email',
                'status.title'
            )
-           ->orderBy("created_at","desc")
-           ->get();
+           ->orderBy("created_at","desc");
 
-       return DataTables::of($reservations)
+      if($status_query){
+          $reservations = $reservations->where("reservations.status_id","=",$status_query);
+      }
+
+       return DataTables::of($reservations->get())
            ->addColumn('full_name', function ($reservation) {
              return $reservation->first_name. ' ' . $reservation->last_name;
            })

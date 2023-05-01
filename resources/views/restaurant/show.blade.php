@@ -89,7 +89,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 col-sm-12 ">
-                                                        <!--  <button class="btn btn-sm btn-primary">See Details</button> -->
+                                                       <a href="{{url("restaurant/my-restaurant#tab2")}}" class="btn btn-sm btn-primary">See Details</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -102,7 +102,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12 col-sm-12 ">
-                                                        <!--  <button class="btn btn-sm btn-info text-white">See Details</button> -->
+                                                        <a href="{{url("restaurant/my-restaurant?status_id=").\App\Models\Status::PENDING.'#tab2'}}" class="btn btn-sm btn-info text-white">See Details</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -115,7 +115,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 col-sm-12 ">
-                                                        <!--  <button class="btn btn-sm btn-success">See Details</button> -->
+                                                      <a href="{{url("restaurant/my-restaurant?status_id=").\App\Models\Status::CONFIRMED.'#tab2'}}" class="btn btn-sm btn-success">See Details</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -129,7 +129,7 @@
 
                                                     </div>
                                                     <div class="col-md-6 col-sm-12 ">
-                                                       <!-- <button class="btn btn-sm btn-danger">See Details</button> -->
+                                                        <a href="{{url("restaurant/my-restaurant?status_id=").\App\Models\Status::REJECTED.'#tab2'}}" class="btn btn-sm btn-danger">See Details</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -142,6 +142,26 @@
                                     <div class="col-md-12 col-sm-12 mx-auto ">
                                         <div class="mx-auto row my-3 px-5">
                                             <div class=" mb-5">
+                                                <div class="row mb-4">
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <label class="fw-bold" for="status-select">Status</label>
+                                                        <select id="status-select" name="" class="form-control" name="" id="">
+                                                            <option value="">Please Select</option>
+                                                            @foreach($statuses as $status)
+                                                                <option value="{{$status->status_id}}">{{$status->title}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12 mt-4 btn-group align-items-center">
+                                                        <button onclick="filterTable()" id="filter-btn" class="btn p-1 btn-sm btn-primary text-white">Filter</button>
+                                                        <button onclick="resetTable()" id="reset-filter" class="btn p-1 btn-sm btn-warning text-white">Reset Filter</button>
+                                                    </div>
+                                                    <hr class="mt-4">
+                                                    <div class="d-flex justify-content-end">
+                                                        <button data-target-id="{{ $restaurant->restaurant_id }}" class="btn btn-success btn-sm text-right  mt-3" data-bs-toggle="modal" data-bs-target="#reservation-modal" data-bs-whatever="@mdo"><i class="fa-solid fa-plus"></i> Create New Reservation</button>
+                                                    </div>
+                                                </div>
+
                                                 <table id="reservations_table" class=" mt-0 table table-bordered data-table">
                                                     <caption>Reservations</caption>
                                                     <thead>
@@ -263,12 +283,54 @@
         </div>
     </div>
 
+    <div class="modal fade" id="reservation-modal" tabindex="-1" aria-labelledby="reservation-modal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Book Your Table <span id="restaurant_name"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modal-body">
+                    <form>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label for="reservation_date" class="col-form-label">Reservation Date/Time:</label>
+                                <input required type="datetime-local" class="form-control" id="reservation_date">
+                            </div>
+                            <div class="col-6">
+                                <label for="people_no" class="col-form-label">Number Of People:</label>
+                                <input required type="number" class="form-control" id="people_no">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="door" class="col-form-label">Indoor/Outdoor</label>
+                            <select required id="door" name="door" class="form-control">
+                                <option>Please Select</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="comment" class="col-form-label">Comment:</label>
+                            <textarea name="comment" class="form-control" id="comment"></textarea>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="createReservation" type="button" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.tiny.cloud/1/iu7ixcj8f6lg1l2279cc0xz5cy5boifbgvigjoinwsselme5/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
     <script>
 
         let news_table;
         let reservations_table;
+        let searchQuery;
+
         const news = '{{ isset($news) }}';
         const isNewsSet = Boolean(news);
         const editorOptions = {
@@ -286,8 +348,17 @@
         $(".alert-success").delay(5000).fadeOut('slow');
 
 
-
         $(function () {
+
+            const urlParams = new URLSearchParams(window.location.search);
+            // get the value of the 'q' parameter
+             searchQuery = urlParams.get('status_id');
+
+            $('#status-select').change(function() {
+                searchQuery = $(this).children("option:selected").val();
+            });
+
+            if(searchQuery) $("#status-select").val(searchQuery);
 
             var hash = location.hash.replace(/^#/, '');  // ^ means starting, meaning only match the first hash
 
@@ -298,7 +369,7 @@
                 // Change hash for page-reload
             $('.nav-tabs a').on('shown.bs.tab', function (e) {
                 window.location.hash = e.target.hash;
-            })
+            });
 
             function getMenuOnLoad(){
                 $.ajax({
@@ -335,6 +406,7 @@
                 tinymce.init(editorOptions);
             }
 
+
             reservations_table = $('#reservations_table').DataTable({
                 lengthChange:false,
                 autoWidth: false,
@@ -343,6 +415,10 @@
                 ajax:{
                   url:"{{url("reservation")}}/{{$restaurant->restaurant_id}}",
                   type:"GET",
+                  data:function(data){
+                      if(searchQuery)
+                      data.status_id = searchQuery;
+                  }
                 },
                 columns: [
                      {data: 'full_name',name:'full_name',searchable: true,width:"10%"},
@@ -505,6 +581,8 @@
                     })
                 })
 
+
+
             $("#uploadMenu").submit(function (e){
                 e.preventDefault();
                 const restaurant_id = {{$restaurant->restaurant_id}};
@@ -545,9 +623,73 @@
                 })
             })
 
+
+            //Create new reservation modal
+            $("#reservation-modal").on("show.bs.modal", function (e) {
+                const restaurant_id = $(e.relatedTarget).data('target-id');
+                $.ajax({
+                    type:"GET",
+                    url:`{{url("restaurant/")}}/${restaurant_id}`,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                }).done(function (result){
+                    if(result.success){
+                        const door = $("#door");
+                        const restaurant = result.restaurant;
+                        door.html(`
+                     ${restaurant.has_indoor ? '<option value="in_door">Indoor</option>': ''}
+                     ${restaurant.has_outdoor ?  '<option value="out_door">Outdoor</option>':''}
+                `)
+                    }
+                })
+
+                $("#createReservation").on("click",function (){
+                    $.ajax({
+                        url: `{{url("reservation/")}}/${restaurant_id}`,
+                        type:"POST",
+                        data:{
+                            '_token': "{{ csrf_token() }}",
+                            'reservation_date':$("#reservation_date").val(),
+                            'users_no':$("#people_no").val(),
+                            'door':$("#door").val(),
+                            'comment':$("#comment").val(),
+                        }
+                    }).done(function(result){
+                        if(result.success){
+                            updateDataTable(reservations_table);
+                            return Swal.fire(
+                                'Success!',
+                                'Reservation request has been sent!',
+                                'success'
+                            )
+                        }
+                    }).fail(function (err){
+                        const failed_result = JSON.parse(err.responseText);
+                        const errors = failed_result.errors;
+                        const errorMessage = Object.keys(errors).map(err=>errors[err])[0].join("")
+                        return Swal.fire(
+                            'error',
+                            errorMessage,
+                            'error'
+                        )
+                    })
+                })
+            });
+
         });
 
+        function filterTable(){
+            reservations_table.draw();
+        }
 
+        function resetTable(){
+            $("#status-select").val("");
+            searchQuery = "";
+            history.replaceState(null, null, window.location.pathname);
+            updateDataTable(reservations_table)
+        }
 
         function updateDataTable(table){
             table.ajax.reload();

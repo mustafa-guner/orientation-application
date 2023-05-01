@@ -141,7 +141,8 @@
             <div class="col-md-9 col-sm-12">
                 <div class="row mr-0">
                     <div class="col-6">
-                        <h3 class="fw-bold">My feed</h3>
+                        <h3 class="fw-bold">My feed <span>({{count($restaurants)}})</span></h3>
+
                     </div>
                     <div class="col-md-6 col-sm-12 pr-0">
                         <form method="GET" action="{{url("/")}}" class="d-flex btn-group mr-0">
@@ -251,8 +252,8 @@
 
 
 
-    <div class="modal fade bd-example-modal-lg"  id="my-reservations-modal" tabindex="-1" aria-labelledby="my-reservations-modal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal fade bd-example-modal-xl"  id="my-reservations-modal" tabindex="-1" aria-labelledby="my-reservations-modal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">My Reservations <span id="restaurant_name"></span></h5>
@@ -265,9 +266,10 @@
                         <th>Visitors</th>
                         <th>Indoor/Outdoor</th>
                         <th>Comment</th>
-                        <th>Reserv. Date</th>
+                        <th>Reservation Date</th>
                         {{--<th>Action Date</th>--}}
                         <th>Status</th>
+                        <th>Actions</th>
                         </thead>
                     </table>
                 </div>
@@ -373,6 +375,10 @@
                     {data: 'reservation_date', orderable: true, searchable: true},
                     // {data:"action_at",name:"action_at"},
                     {data:"status",searchable: true},
+                    {data:null,render:function(data,type,full,meta){
+                        console.log(data)
+                        return `<a href="{{url("restaurant/")}}/${data.restaurant.restaurant_id}" class="btn btn-sm btn-primary">Visit</a>`
+                    }}
                 ]
             })
         });

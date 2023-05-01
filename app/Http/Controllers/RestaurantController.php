@@ -28,14 +28,15 @@ class RestaurantController extends Controller
         $pending_reservations = Reservation::where("restaurant_id","=",$restaurant->restaurant_id)->where("status_id","=",Status::PENDING)->count();
         $rejected_reservations = Reservation::where("restaurant_id","=",$restaurant->restaurant_id)->where("status_id","=",Status::REJECTED)->count();
 
-
+        $statuses = Status::all();
 
         $result = [
             "restaurant"=>$restaurant,
             "reservations"=>$reservations,
             "confirmed_reservations"=>$confirmed_reservations,
             "pending_reservations"=>$pending_reservations,
-            "rejected_reservations"=>$rejected_reservations
+            "rejected_reservations"=>$rejected_reservations,
+            "statuses"=>$statuses
         ];
 
 
