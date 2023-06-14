@@ -14,13 +14,13 @@ The Reservation Application is a web-based platform designed to facilitate reser
 ## Installation and Setup
 To run the Reservation Application locally, follow these steps:
 
-- Clone the repository from GitHub: git clone https://github.com/slex1one-Musdy/orientation-application.git.
-- Navigate to the project directory: cd reservation-application.
+- Clone the repository from GitHub: ```git clone https://github.com/slex1one-Musdy/orientation-application.git```.
+- Navigate to the project directory: ```cd reservation-application```.
 - Install the required dependencies using Composer: ```composer install```.
 - Create a copy of the ```.env.example``` file and rename it to ```.env```.
 - Generate an application key: ```php artisan key:generate```.
 - Install required npm packages for bootstrap: ```npm install```
-- Run the vite: ```npm run build```
+- Run the vite to build bootstrap: ```npm run build```
 - Configure your database settings in the .env file.
 - Do not forget to add your mailtrap credentials into your .env file. (https://mailtrap.io/signin)
 - Run the database migrations: ```php artisan migrate```.
